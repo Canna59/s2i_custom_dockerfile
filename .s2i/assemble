@@ -1,0 +1,16 @@
+#!/bin/bash
+
+DEPLOY_DIR=/opt/openshift
+echo "---> Set target directory to $DEPLOY_DIR ..."
+
+cp -Rf /tmp/src/. ./
+echo "---> Copied application source to $HOME ..."
+ls -la $HOME
+
+if [ $(ls $DEPLOY_DIR/*.jar | wc -l) -eq 1 ]; then
+  mv $DEPLOY_DIR/*.jar $DEPLOY_DIR/app.jar
+  [ ! -f $DEPLOY_DIR/app.jar ] && echo "Application could not be properly built." && exit 1 
+  echo "---> Application deployed successfully.  jar file is located in $DEPLOY_DIR/app.jar"
+else
+  exit 1
+fi
